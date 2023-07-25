@@ -1,0 +1,42 @@
+<!DOCTYPE = html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <link rel='stylesheet'href='style.css'>
+        <Title>Etch-a-Sketch Toy</Title>
+    </head>
+
+    <body>
+        <div id='container' data-height='1024' data-width='1024'></div>
+        <script>
+            var unitsPerSide = 100;
+
+            function hovering(event) {
+                this.classList.add('active');
+            }
+
+            for (h = 0; h < unitsPerSide; h++) {
+                
+                const row = document.createElement('div');
+                row.classList.add('row');
+                row.setAttribute('id',`row${[h]}`);
+
+                document.querySelector('#container').appendChild(row)
+
+                for (w = 0; w < unitsPerSide; w++) {
+                    const square = document.createElement('div');
+
+                    square.classList.add('square');
+                    square.classList.add(`row${[h]}`)
+                    square.setAttribute('id',`r${[h]}s${[w]}`)
+
+                    square.style.height = (document.querySelector('#container').offsetHeight / unitsPerSide)
+                    square.style.width = (document.querySelector('#container').offsetWidth / unitsPerSide)
+
+                    row.appendChild(square);
+                    square.addEventListener('mouseover',hovering);
+                }
+            }
+        </script>
+    </body>
+</html>

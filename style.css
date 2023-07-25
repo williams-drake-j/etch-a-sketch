@@ -1,0 +1,45 @@
+body {
+    display: flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+#container {
+    display: flex;
+    /*flex: 1;*/
+
+    height:512px;
+    width:512px;
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+
+    margin: 0rem;
+}
+
+.row {
+    display: flex;
+    flex: 1;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+
+    margin: 0rem;
+}
+
+.square {
+    flex: 1;
+    background-color: white;
+
+    border-color: black;
+    border-radius: 0.5rem;
+
+    padding:0.01rem 0.01rem;
+}
+
+.active {
+    background-color: black;;
+}
