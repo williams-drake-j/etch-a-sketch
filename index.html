@@ -42,7 +42,7 @@
             function getFadeTime () {
                 
                 while (true) {
-                    const input = Number(prompt('How long should your ink last?'));
+                    const input = Number(prompt('How long should your ink last in seconds?'));
 
                     if (Number.isInteger(input)) {
                         fadeTime = input;
@@ -56,16 +56,16 @@
                 while (true) {
                     const input = prompt('What color should your ink be? ((R)ed, (B)lue, (G)reen or (Bl)ack?').toLowerCase();
 
-                    if (input === 'r') {
+                    if (input === 'r' || input === 'red') {
                         inkColor = 'red';
                         return;
-                    } else if (input === 'b') {
-                        inkColor = 'blue';
-                        return;
-                    } else if (input === 'g') {
+                    } else if (input === 'g' || input === 'green') {
                         inkColor = 'green';
                         return;
-                    } else {
+                    } else if (input === 'b' || input === 'blue') {
+                        inkColor = 'blue';
+                        return;
+                    } else if (input === 'bl' || input === 'black') {
                         inkColor = 'black';
                         return;
                     };
@@ -84,11 +84,15 @@
 
             function deactivate(element, inkColor) {
 
+                element.classList.remove('active');
                 element.classList.remove(`active-${inkColor}`);
+
+                element.classList.add('deactivated');
             };
 
             function hovering() {
 
+                this.classList.add('active');
                 this.classList.add(`active-${inkColor}`);
 
                 setTimeout(deactivate, (fadeTime*MS_1000), this, inkColor)
@@ -115,7 +119,7 @@
                     
                     const row = document.createElement('div');
                     row.classList.add('row');
-                    row.setAttribute('id',`row${[h]}`);
+                    row.setAttribute('id',`row${h}`);
 
                     document.querySelector('#gridContainer').appendChild(row);
 
@@ -125,8 +129,8 @@
                         const square = document.createElement('div');
 
                         square.classList.add('square');
-                        square.classList.add(`row${[h]}`)
-                        square.setAttribute('id',`r${[h]}s${[w]}`)
+                        square.classList.add(`row${h}`)
+                        square.setAttribute('id',`r${h}s${w}`)
 
                         square.style.height = (gridContainer.offsetHeight / unitsPerSide)
                         square.style.width = (gridContainer.offsetWidth / unitsPerSide)

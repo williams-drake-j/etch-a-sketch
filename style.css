@@ -53,6 +53,13 @@ button {
     background-clip: content-box;
 }
 
+.deactivated {
+    background-color: lightgray;
+}
+
+.active {
+}
+
 .active-black {
     background-color: black;
 }
