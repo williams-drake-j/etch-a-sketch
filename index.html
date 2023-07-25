@@ -7,36 +7,131 @@
     </head>
 
     <body>
-        <div id='container' data-height='1024' data-width='1024'></div>
+        <div id='buttonContainer'>
+            <button id='buttonGridSize' data-buttonFunction='getUnitsPerSide'>Select Grid Size</button>
+            <button id='buttonFadeTime' data-buttonFunction='getFadeTime'>Select Fade Time</button>
+            <button id='buttonInkColor' data-buttonFunction='getInkColor'>Select Ink Color</button>
+        </div>
+        <div id='gridContainer'></div>
         <script>
-            var unitsPerSide = 100;
+            const MS_1000 = 1000; // 1000 ms per 1 second
 
-            function hovering(event) {
-                this.classList.add('active');
-            }
+            var unitsPerSide = 24;
+            var fadeTime = 5;
+            var inkColor = 'black';
 
-            for (h = 0; h < unitsPerSide; h++) {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => button.addEventListener('click', buttonDirectory));
+
+            function getUnitsPerSide() {
+
+                while (true) {
+                    const input = Number(prompt('How many squares per side? (100 or fewer)'));
+
+                    if (Number.isInteger(input)) {
+                        unitsPerSide = input;
+
+                        clearGrid();
+                        drawGrid();
+                        return;
+                    };
+                };
+            };
+
+            function getFadeTime () {
                 
-                const row = document.createElement('div');
-                row.classList.add('row');
-                row.setAttribute('id',`row${[h]}`);
+                while (true) {
+                    const input = Number(prompt('How long should your ink last?'));
 
-                document.querySelector('#container').appendChild(row)
+                    if (Number.isInteger(input)) {
+                        fadeTime = input;
+                        return;
+                    };
+                };
+            };
 
-                for (w = 0; w < unitsPerSide; w++) {
-                    const square = document.createElement('div');
+            function getInkColor () {
 
-                    square.classList.add('square');
-                    square.classList.add(`row${[h]}`)
-                    square.setAttribute('id',`r${[h]}s${[w]}`)
+                while (true) {
+                    const input = prompt('What color should your ink be? ((R)ed, (B)lue, (G)reen or (Bl)ack?').toLowerCase();
 
-                    square.style.height = (document.querySelector('#container').offsetHeight / unitsPerSide)
-                    square.style.width = (document.querySelector('#container').offsetWidth / unitsPerSide)
+                    if (input === 'r') {
+                        inkColor = 'red';
+                        return;
+                    } else if (input === 'b') {
+                        inkColor = 'blue';
+                        return;
+                    } else if (input === 'g') {
+                        inkColor = 'green';
+                        return;
+                    } else {
+                        inkColor = 'black';
+                        return;
+                    };
+                };
+            };
 
-                    row.appendChild(square);
-                    square.addEventListener('mouseover',hovering);
-                }
-            }
+            function buttonDirectory () {
+
+                const destination = this.getAttribute('data-buttonFunction')
+
+                if (destination === 'getUnitsPerSide') getUnitsPerSide();
+                if (destination === 'getFadeTime') getFadeTime();
+                if (destination === 'getInkColor') getInkColor();
+            };
+
+            function deactivate(element, inkColor) {
+
+                element.classList.remove(`active-${inkColor}`);
+            };
+
+            function hovering() {
+
+                this.classList.add(`active-${inkColor}`);
+
+                setTimeout(deactivate, (fadeTime*MS_1000), this, inkColor)
+            };
+
+            function clearGrid() {
+
+                const squares = document.querySelectorAll('.square');
+                squares.forEach(square => square.remove());
+
+                const rows = document.querySelectorAll('.row');
+                rows.forEach(row => row.remove());
+            };
+
+            function drawGrid() {
+
+                for (h = 0; h < unitsPerSide; h++) {
+                    
+                    const row = document.createElement('div');
+                    row.classList.add('row');
+                    row.setAttribute('id',`row${[h]}`);
+
+                    document.querySelector('#gridContainer').appendChild(row);
+
+                    for (w = 0; w < unitsPerSide; w++) {
+
+                        const gridContainer = document.querySelector('#gridContainer');
+                        const square = document.createElement('div');
+
+                        square.classList.add('square');
+                        square.classList.add(`row${[h]}`)
+                        square.setAttribute('id',`r${[h]}s${[w]}`)
+
+                        square.style.height = (gridContainer.offsetHeight / unitsPerSide)
+                        square.style.width = (gridContainer.offsetWidth / unitsPerSide)
+
+                        square.style.outline = `${((gridContainer.offsetWidth / unitsPerSide) / 1000)}rem solid black`
+
+                        row.appendChild(square);
+                        square.addEventListener('mouseover',hovering);
+                    };
+                };
+            };
+
+            drawGrid();
         </script>
     </body>
 </html>
