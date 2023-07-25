@@ -11,6 +11,7 @@
             <button id='buttonGridSize' data-buttonFunction='getUnitsPerSide'>Select Grid Size</button>
             <button id='buttonFadeTime' data-buttonFunction='getFadeTime'>Select Fade Time</button>
             <button id='buttonInkColor' data-buttonFunction='getInkColor'>Select Ink Color</button>
+            <button id='buttonResetGrid' data-buttonFunction='resetGrid'>Reset Grid</button>
         </div>
         <div id='gridContainer'></div>
         <script>
@@ -78,6 +79,7 @@
                 if (destination === 'getUnitsPerSide') getUnitsPerSide();
                 if (destination === 'getFadeTime') getFadeTime();
                 if (destination === 'getInkColor') getInkColor();
+                if (destination === 'resetGrid') resetGrid();
             };
 
             function deactivate(element, inkColor) {
@@ -91,6 +93,12 @@
 
                 setTimeout(deactivate, (fadeTime*MS_1000), this, inkColor)
             };
+
+            function resetGrid() {
+
+                clearGrid();
+                drawGrid();
+            }
 
             function clearGrid() {
 
